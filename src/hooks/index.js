@@ -1,0 +1,1 @@
+export { useFetchTrendingMovies } from './useFetchTrendingMovies';
