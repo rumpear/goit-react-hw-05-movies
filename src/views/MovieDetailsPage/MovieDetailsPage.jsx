@@ -21,7 +21,6 @@ import { fetchMovieById, IMAGE_PATH_POSTER } from '../../services/movieApi';
 export const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState([null]);
-  console.log(movieId);
 
   useEffect(() => {
     const getMovieById = async movieId => {
@@ -33,31 +32,26 @@ export const MovieDetailsPage = () => {
     getMovieById(movieId);
   }, [movieId]);
 
-  if (!movie) {
-    return;
-  }
   const { genres, title, vote_average, popularity, overview, poster_path } =
     movie;
-  //   console.log(genres);
-  //   if (genres) {
-  //     const genre = genres.map(genre => genre.name);
-  //     return genre;
-  //   }
-  //   console.log(genre);
+  const getGenres = genres => genres.map(genre => genre.name).join(', ');
+
   console.log(poster_path);
   const path = IMAGE_PATH_POSTER + poster_path;
   console.log(path);
+  // path ? src={path} : src={noPhoto}
+
   return (
     <>
       <h1>MovieDetailsPage: {movieId}</h1>
       {movie && (
         <div>
-          <p>{title}</p>
-          <p>{overview}</p>
-          {/* {genre && genre.map(item => <p>{item}</p>)} */}
-          {/* {<p>{...genre}</p>} */}
-          <p>{vote_average}</p>
-          <p>{popularity}</p>
+          <p>title: {title}</p>
+          <p>overview: {overview}</p>
+          {genres && <p>genres: {getGenres(genres)}</p>}
+
+          <p>vote_average: {vote_average}</p>
+          <p>popularity: {popularity}</p>
           <img src={path} alt={title}></img>
         </div>
       )}
