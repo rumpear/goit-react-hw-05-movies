@@ -26,16 +26,3 @@ const App = () => (
 );
 
 export default App;
-
-// /movies/:movieId
-// <Routes>
-//   <Route path="/" element={<Layout />}>
-//     <Route index element={<HomePage />} />
-//     <Route path="/movies" element={<MoviesPage />}></Route>
-//     <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
-//       <Route path="cast" element={<Cast />} />
-//       <Route path="reviews" element={<Reviews />} />
-//     </Route>
-//     <Route path="*" element={<NotFoundPage />} />
-//   </Route>
-// </Routes>;

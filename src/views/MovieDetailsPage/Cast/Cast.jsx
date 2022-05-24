@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchCast } from '../../../services/movieApi';
+import { checkProfilePhoto } from '../../../utils';
 import { Image, List, Item } from './Cast.styled';
 
 export const Cast = () => {
@@ -18,20 +19,17 @@ export const Cast = () => {
 
   return (
     <>
-      <h1>Cast</h1>
       <List>
         {cast &&
-          cast.map(({ id, name, character, profile_path }) => (
-            <Item key={id}>
-              <Image
-                src={`https://image.tmdb.org/t/p/original/` + profile_path}
-                alt={name}
-              />
-              <p>
-                {name} as {character}
-              </p>
-            </Item>
-          ))}
+          cast.map(({ id, name, character, profile_path }) => {
+            return (
+              <Item key={id}>
+                <Image src={checkProfilePhoto(profile_path)} alt={name} />
+                <p>{name}</p>
+                <p>as {character}</p>
+              </Item>
+            );
+          })}
       </List>
     </>
   );

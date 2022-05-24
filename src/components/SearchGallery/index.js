@@ -1,0 +1,1 @@
+export { SearchGallery } from './SearchGallery';

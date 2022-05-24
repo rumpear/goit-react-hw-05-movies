@@ -1,66 +1,44 @@
-import { useEffect, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
-import { fetchMovieById, IMAGE_PATH_POSTER } from '../../services/movieApi';
-
-// const useFetch = (movieId, method, defaultValue) => {
-//   const [state, setState] = useState(defaultValue);
-
-//   useEffect(() => {
-//     const getMovieById = async movieId => {
-//       console.log(movieId, 'movieId Page');
-//       const results = await method(movieId);
-//       //   console.log(results);
-//       setState(results);
-//     };
-//     getMovieById(movieId);
-//   }, [method, movieId]);
-
-//   return [state, setState];
-// };
+import { Outlet, useParams } from 'react-router-dom';
+import { GoBackButton } from '../../components/GoBackButton';
+import { Loader } from '../../components/Loader';
+import { MovieDetailsInfo } from '../../components/MovieDetailsInfo';
+import { useFetch } from '../../hooks';
+import { fetchMovieById } from '../../services/movieApi';
+import { checkPoster } from '../../utils';
+import { Link } from './MovieDetailsPage.styled';
 
 export const MovieDetailsPage = () => {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState([null]);
 
-  useEffect(() => {
-    const getMovieById = async movieId => {
-      console.log(movieId, 'movieId Page');
-      const results = await fetchMovieById(movieId);
-      //   console.log(results);
-      setMovie(results);
-    };
-    getMovieById(movieId);
-  }, [movieId]);
+  const [movie, loading, error] = useFetch(
+    () => fetchMovieById(movieId),
+    [movieId],
+  );
 
-  const { genres, title, vote_average, popularity, overview, poster_path } =
-    movie;
-  const getGenres = genres => genres.map(genre => genre.name).join(', ');
+  // const getGenres = genres => genres.map(genre => genre.name).join(', ');
 
-  console.log(poster_path);
-  const path = IMAGE_PATH_POSTER + poster_path;
-  console.log(path);
-  // path ? src={path} : src={noPhoto}
+  if (error) return <h1>{error}</h1>;
+  if (loading) return <Loader />;
 
   return (
     <>
-      <h1>MovieDetailsPage: {movieId}</h1>
-      {movie && (
+      <GoBackButton />
+      {movie && <MovieDetailsInfo movie={movie} />}
+      {/* {movie && (
         <div>
-          <p>title: {title}</p>
-          <p>overview: {overview}</p>
-          {genres && <p>genres: {getGenres(genres)}</p>}
-
-          <p>vote_average: {vote_average}</p>
-          <p>popularity: {popularity}</p>
-          <img src={path} alt={title}></img>
+          <img src={checkPoster(movie.poster_path)} alt={movie.title}></img>
+          <p>{movie.title}</p>
+          {movie.genres && <p>Genre: {getGenres(movie.genres)}</p>}
+          <p>Vote / Votes: {movie.vote_average}</p>
+          <p>Popularity: {movie.popularity}</p>
+          <p>About: {movie.overview}</p>
         </div>
-      )}
-      <p>Additional information</p>
+      )} */}
 
+      {/* <p>Additional information</p>
       <Link to={`cast`}>Cast</Link>
       <Link to={`reviews`}>Review</Link>
-
-      <Outlet />
+      <Outlet /> */}
     </>
   );
 };

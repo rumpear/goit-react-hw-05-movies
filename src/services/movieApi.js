@@ -9,7 +9,6 @@ export const fetchTrendingMovies = async () => {
 };
 
 export const fetchMovieById = async id => {
-  console.log(id);
   const response = await axios.get(`/movie/${id}`);
   return response.data;
 };
@@ -24,6 +23,10 @@ export const fetchMovieReviews = async id => {
   return response.data;
 };
 
-export const IMAGE_PATH_ORIGINAL = `https://image.tmdb.org/t/p/original`;
+export const fetchSearchMovie = async query => {
+  const response = await axios.get(`/search/movie/`, { params: { query } });
+  return response.data;
+};
+// export const IMAGE_PATH_ORIGINAL = `https://image.tmdb.org/t/p/original`;
 export const IMAGE_PATH_POSTER = `https://image.tmdb.org/t/p/w500`;
 export const IMAGE_PATH_PROFILE = `https://image.tmdb.org/t/p/w185`;

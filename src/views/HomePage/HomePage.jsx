@@ -1,21 +1,19 @@
-import { Link } from 'react-router-dom';
-import { useFetchTrendingMovies } from '../../hooks';
-// import { useFetchTrendingMovies } from '../../hooks';
+import { useFetch } from '../../hooks';
+import { fetchTrendingMovies } from '../../services/movieApi';
+import { TrendingGallery } from '../../components/TrendingGallery';
+import { Loader } from '../../components/Loader/';
+import { Title } from './HomePage.styled';
 
 export const HomePage = () => {
-  const trendingMovie = useFetchTrendingMovies();
+  const [movies, loading, error] = useFetch(() => fetchTrendingMovies(), []);
+
+  if (error) return <h1>{error}</h1>;
+  if (loading) return <Loader />;
 
   return (
     <>
-      <h1>Trending Movie</h1>
-      <ul>
-        {trendingMovie &&
-          trendingMovie.map(({ original_title, id }) => (
-            <li key={id}>
-              <Link to={`movies/${id}`}>{original_title}</Link>
-            </li>
-          ))}
-      </ul>
+      <Title>Trending Movie</Title>
+      {movies && <TrendingGallery movies={movies} />}
     </>
   );
 };

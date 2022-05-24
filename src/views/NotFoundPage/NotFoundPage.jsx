@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
+import { GoBackButton } from '../../components/GoBackButton';
 
 export const NotFoundPage = () => {
   return (
-    <p>Page not found. {<Link to={'/'}>You can return to the main</Link>}</p>
+    <>
+      <GoBackButton />
+      <p>Page not found. {<Link to={'/'}>You can return to the main</Link>}</p>
+    </>
   );
 };

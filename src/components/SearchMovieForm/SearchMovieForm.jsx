@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
 import { fetchSearchMovie } from '../../services/movieApi';
-import { useSearchParams } from 'react-router-dom';
-import { Loader } from '../../components/Loader';
-import { SearchGallery } from '../../components/SearchGallery';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Loader } from '../Loader';
 
-export const MoviesPage = () => {
+export const SearchMovieForm = () => {
   const [input, setInput] = useState('');
   const [query, setQuery] = useState('');
-  const [search, setSearch] = useSearchParams();
-
   const [movies, setMovies] = useState([]);
+  const [search, setSearch] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -37,6 +35,7 @@ export const MoviesPage = () => {
   }, [query]);
 
   useEffect(() => {
+    console.log(search);
     if (!search.get('query')) return;
 
     const getData = async () => {
@@ -72,7 +71,20 @@ export const MoviesPage = () => {
         </button>
       </form>
 
-      {loading ? <Loader /> : movies && <SearchGallery movies={movies} />}
+      {loading ? (
+        <Loader />
+      ) : (
+        <ul>
+          {movies &&
+            movies.map(({ original_title, id }) => {
+              return (
+                <Link key={id} to={`${id}`}>
+                  <li>{original_title}</li>
+                </Link>
+              );
+            })}
+        </ul>
+      )}
     </>
   );
 };
