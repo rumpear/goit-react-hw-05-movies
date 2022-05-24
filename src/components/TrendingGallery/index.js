@@ -1,0 +1,1 @@
+export { TrendingGallery } from './TrendingGallery';
